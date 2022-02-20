@@ -10,11 +10,11 @@ namespace ConsoleApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "efdapperbenchmark");
+                name: "dbo");
 
             migrationBuilder.CreateTable(
                 name: "course",
-                schema: "efdapperbenchmark",
+                schema: "dbo",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -29,13 +29,13 @@ namespace ConsoleApp.Migrations
 
             migrationBuilder.CreateTable(
                 name: "student",
-                schema: "efdapperbenchmark",
+                schema: "dbo",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    first_name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    last_name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     birth_date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -45,7 +45,7 @@ namespace ConsoleApp.Migrations
 
             migrationBuilder.CreateTable(
                 name: "teacher",
-                schema: "efdapperbenchmark",
+                schema: "dbo",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -64,15 +64,15 @@ namespace ConsoleApp.Migrations
         {
             migrationBuilder.DropTable(
                 name: "course",
-                schema: "efdapperbenchmark");
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "student",
-                schema: "efdapperbenchmark");
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "teacher",
-                schema: "efdapperbenchmark");
+                schema: "dbo");
         }
     }
 }

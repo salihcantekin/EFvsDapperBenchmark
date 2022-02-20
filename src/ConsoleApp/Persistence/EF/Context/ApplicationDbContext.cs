@@ -10,18 +10,10 @@ namespace ConsoleApp.Persistence.EF.Context
     {
         public DbSet<Course> Courses { get; set; }
         public DbSet<TeacherEF> Teachers { get; set; }
-        public DbSet<StudentEF> Students { get; set; }
+        public DbSet<Student> Students { get; set; }
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> opt) : base(opt)
+        public ApplicationDbContext(DbContextOptions opt) : base(opt)
         {
-            ChangeTracker.AutoDetectChangesEnabled = false;
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-        }
-
-        public ApplicationDbContext()
-        {
-            ChangeTracker.AutoDetectChangesEnabled = false;
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,6 +21,7 @@ namespace ConsoleApp.Persistence.EF.Context
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(Constants.ConnectionStringEF);
+                optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
 
             base.OnConfiguring(optionsBuilder);
@@ -36,38 +29,25 @@ namespace ConsoleApp.Persistence.EF.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("efdapperbenchmark");
+            modelBuilder.HasDefaultSchema("dbo");
 
             modelBuilder.Entity<Course>(entity =>
             {
-                entity.ToTable("course");
-                entity.HasKey(i => i.Id);
-                entity.Property(i => i.Id).HasColumnName("id");
-                entity.Property(i => i.Name).HasColumnName("name").HasMaxLength(100);
-                entity.Property(i => i.IsActive).HasColumnName("is_active").HasMaxLength(100);
+                entity.ToTable("courses");
             });
 
-            modelBuilder.Entity<StudentEF>(entity =>
+            modelBuilder.Entity<Student>(entity =>
             {
                 entity.ToTable("student");
-
-                //entity.Ignore(i => i.Id);
-                entity.HasKey(i => i.Id);
-                entity.Property(i => i.Id).HasColumnName("id");
+                entity.Property(i => i.Id).HasColumnName("id").UseIdentityColumn();
                 entity.Property(i => i.FirstName).HasColumnName("first_name");
                 entity.Property(i => i.LastName).HasColumnName("last_name");
-                entity.Property(i => i.BirthDate)
-                        .HasColumnName("birth_date");
+                entity.Property(i => i.BirthDate).HasColumnName("birth_date");
             });
 
             modelBuilder.Entity<TeacherEF>(entity =>
             {
-                entity.ToTable("teacher");
-                entity.HasKey(i => i.Id);
-                entity.Property(i => i.Id).HasColumnName("id");
-                entity.Property(i => i.FirstName).HasColumnName("first_name").HasMaxLength(100);
-                entity.Property(i => i.LastName).HasColumnName("last_name").HasMaxLength(100);
-                entity.Property(i => i.BirthDate).HasColumnName("birth_date");
+                entity.ToTable("teachers");
             });
 
             base.OnModelCreating(modelBuilder);

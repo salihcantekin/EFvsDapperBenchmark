@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220219024502_initMig1")]
-    partial class initMig1
+    [Migration("20220219030501_initMig")]
+    partial class initMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("efdapperbenchmark")
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasDefaultSchema("dbo")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -46,7 +46,7 @@ namespace ConsoleApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("course", "efdapperbenchmark");
+                    b.ToTable("course", "dbo");
                 });
 
             modelBuilder.Entity("ConsoleApp.Domain.Entities.StudentEF", b =>
@@ -72,7 +72,7 @@ namespace ConsoleApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("student", "efdapperbenchmark");
+                    b.ToTable("student", "dbo");
                 });
 
             modelBuilder.Entity("ConsoleApp.Domain.Entities.TeacherEF", b =>
@@ -100,7 +100,7 @@ namespace ConsoleApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("teacher", "efdapperbenchmark");
+                    b.ToTable("teacher", "dbo");
                 });
 #pragma warning restore 612, 618
         }

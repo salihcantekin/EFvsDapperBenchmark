@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220219023636_initMig")]
-    partial class initMig
+    [Migration("20220220171501_tableAndColumnNameChanged")]
+    partial class tableAndColumnNameChanged
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("efdapperbenchmark")
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasDefaultSchema("dbo")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -29,27 +29,22 @@ namespace ConsoleApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("IsActive")
-                        .HasMaxLength(100)
-                        .HasColumnType("bit")
-                        .HasColumnName("is_active");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("course", "efdapperbenchmark");
+                    b.ToTable("courses", "dbo");
                 });
 
-            modelBuilder.Entity("ConsoleApp.Domain.Entities.StudentEF", b =>
+            modelBuilder.Entity("ConsoleApp.Domain.Entities.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,42 +58,38 @@ namespace ConsoleApp.Migrations
                         .HasColumnName("birth_date");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("first_name");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("last_name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("student", "efdapperbenchmark");
+                    b.ToTable("student", "dbo");
                 });
 
             modelBuilder.Entity("ConsoleApp.Domain.Entities.TeacherEF", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
+                        .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("birth_date");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("first_name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("last_name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("teacher", "efdapperbenchmark");
+                    b.ToTable("teachers", "dbo");
                 });
 #pragma warning restore 612, 618
         }

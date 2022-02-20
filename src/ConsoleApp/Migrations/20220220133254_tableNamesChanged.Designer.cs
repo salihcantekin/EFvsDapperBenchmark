@@ -4,6 +4,7 @@ using ConsoleApp.Persistence.EF.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220220133254_tableNamesChanged")]
+    partial class tableNamesChanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,19 +29,24 @@ namespace ConsoleApp.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasMaxLength(100)
+                        .HasColumnType("bit")
+                        .HasColumnName("is_active");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("courses", "dbo");
+                    b.ToTable("course", "dbo");
                 });
 
             modelBuilder.Entity("ConsoleApp.Domain.Entities.Student", b =>
@@ -56,38 +63,46 @@ namespace ConsoleApp.Migrations
                         .HasColumnName("birth_date");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("first_name");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("last_name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("student", "dbo");
+                    b.ToTable("students", "dbo");
                 });
 
             modelBuilder.Entity("ConsoleApp.Domain.Entities.TeacherEF", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("birth_date");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("first_name");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("last_name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("teachers", "dbo");
+                    b.ToTable("teacher", "dbo");
                 });
 #pragma warning restore 612, 618
         }
