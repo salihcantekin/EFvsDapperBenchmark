@@ -27,13 +27,16 @@ namespace ConsoleApp.Tests
         private ApplicationDbContext context;
 
         [GlobalSetup]
-        public async Task Init()
+        public void Init()
         {
             Program.InitDapper();
             var dbContextOptions = Program.InitEf();
 
             context = new ApplicationDbContext(dbContextOptions);
             connection = new SqlConnection(Constants.ConnectionStringDapper);
+
+            // let it call modelcreating method
+            context.Students.Count();
         }
 
         [Benchmark(Description = "DP Count")]

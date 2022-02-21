@@ -8,8 +8,6 @@ namespace ConsoleApp.Persistence.EF.Context
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Course> Courses { get; set; }
-        public DbSet<TeacherEF> Teachers { get; set; }
         public DbSet<Student> Students { get; set; }
 
         public ApplicationDbContext(DbContextOptions opt) : base(opt)
@@ -31,11 +29,6 @@ namespace ConsoleApp.Persistence.EF.Context
         {
             modelBuilder.HasDefaultSchema("dbo");
 
-            modelBuilder.Entity<Course>(entity =>
-            {
-                entity.ToTable("courses");
-            });
-
             modelBuilder.Entity<Student>(entity =>
             {
                 entity.ToTable("student");
@@ -43,11 +36,6 @@ namespace ConsoleApp.Persistence.EF.Context
                 entity.Property(i => i.FirstName).HasColumnName("first_name");
                 entity.Property(i => i.LastName).HasColumnName("last_name");
                 entity.Property(i => i.BirthDate).HasColumnName("birth_date");
-            });
-
-            modelBuilder.Entity<TeacherEF>(entity =>
-            {
-                entity.ToTable("teachers");
             });
 
             base.OnModelCreating(modelBuilder);

@@ -35,10 +35,13 @@ namespace ConsoleApp.Tests
 
             connection = new SqlConnection(Constants.ConnectionStringDapper);
             context = new ApplicationDbContext(dbContextOptions);
+            
+            // let it call modelcreating method
+            context.Students.Count();
         }
 
-        [Benchmark(Description = "EF Insert")]
-        public async Task InsertByParamsEF()
+        [Benchmark(Description = "EF Insert Many")]
+        public async Task InsertEF()
         {
             var students = StudentDataProvider.GetStudentsEF(insertRowCount);
 
@@ -47,8 +50,8 @@ namespace ConsoleApp.Tests
         }
 
 
-        [Benchmark(Description = "DP Insert")]
-        public async Task InsertByParamsDapper()
+        [Benchmark(Description = "DP Insert Many")]
+        public async Task InsertDP()
         {
             var student = StudentDataProvider.GetStudentsDP(insertRowCount);
             await connection.InsertAllAsync(student);

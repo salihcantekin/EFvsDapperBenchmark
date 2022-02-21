@@ -6,8 +6,6 @@ namespace ConsoleApp.Domain.Entities
 {
     public class Student
     {
-        [Key()]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
 
         public String FirstName { get; set; }

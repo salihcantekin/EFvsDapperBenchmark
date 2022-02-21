@@ -10,13 +10,10 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp.Tests
 {
-    [HtmlExporter]
-    [JsonExporterAttribute.FullCompressed]
-    [MarkdownExporterAttribute.GitHub]
     [SimpleJob(
         BenchmarkDotNet.Engines.RunStrategy.ColdStart,
         BenchmarkDotNet.Jobs.RuntimeMoniker.Net60,
-        launchCount: 1,
+        launchCount: 10,
         targetCount: 100,
         id: "Insert Test")]
     [MemoryDiagnoser]
@@ -40,10 +37,13 @@ namespace ConsoleApp.Tests
 
             connection = new SqlConnection(Constants.ConnectionStringDapper);
             context = new ApplicationDbContext(dbContextOptions);
+
+            // let it call modelcreating method
+            context.Students.Count();
         }
 
         [Benchmark(Description = "EF Single Insert")]
-        public async Task InsertByParamsEF()
+        public async Task InsertEF()
         {
             var student = StudentDataProvider.GetStudentEF();
 
@@ -53,7 +53,7 @@ namespace ConsoleApp.Tests
 
 
         [Benchmark(Description = "DP Single Insert")]
-        public async Task InsertByParamsDapper()
+        public async Task InsertDP()
         {
             var student = StudentDataProvider.GetStudentDP();
 
@@ -61,10 +61,8 @@ namespace ConsoleApp.Tests
         }
 
 
-        #region Single Insert With RawSql
-
         [Benchmark(Description = "EF Single Raw")]
-        public async Task INSERT_EF_Single_Student_RawSQL()
+        public async Task InsertEFRaw()
         {
             var student = StudentDataProvider.GetStudentEF();
 
@@ -72,13 +70,11 @@ namespace ConsoleApp.Tests
         }
 
         [Benchmark(Description = "DP Single Raw")]
-        public async Task INSERT_Dapper_Single_Student_RawSQL()
+        public async Task InsertDPRaw()
         {
             var student = StudentDataProvider.GetStudentDP();
 
             await connection.ExecuteAsync(rawSqlDP, student);
         }
-
-        #endregion
     }
 }

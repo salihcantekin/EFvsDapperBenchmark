@@ -33,7 +33,12 @@ namespace ConsoleApp.Tests
         private readonly string rawSqlDP = @"UPDATE STUDENT SET first_name = @FirstName WHERE Id = @Id";
         private readonly string rawSqlEF = @"UPDATE STUDENT SET first_name = {1} WHERE Id = {0}";
 
-        private Student GetRandomStudent() => studentList.OrderBy(i => Guid.NewGuid()).First();
+        private Student GetRandomStudent()
+        {
+            var student = studentList.OrderBy(i => Guid.NewGuid()).First();
+            studentList.Remove(student);
+            return student;
+        }
         private int GetRandomId() => new Random().Next(1, rowCount);
 
         [GlobalSetup]
@@ -45,7 +50,7 @@ namespace ConsoleApp.Tests
             connection = new SqlConnection(Constants.ConnectionStringDapper);
             context = new ApplicationDbContext(dbContextOptions);
             rowCount = await context.Students.CountAsync();
-            studentList = await context.Students.OrderBy(i => Guid.NewGuid()).Take(100).ToListAsync();
+            studentList = await context.Students.OrderBy(i => Guid.NewGuid()).Take(1000).ToListAsync();
         }
 
 
@@ -67,12 +72,10 @@ namespace ConsoleApp.Tests
             await context.SaveChangesAsync();
         }
 
-
-
         [Benchmark(Description = "DP Single Update Raw")]
         public async Task UpdateSingleDPRaw()
         {
-            await connection.ExecuteAsync(rawSqlDP, new {FirstName = "XXX", Id = GetRandomId()});
+            await connection.ExecuteAsync(rawSqlDP, new { FirstName = "XXX", Id = GetRandomId() });
         }
 
         [Benchmark(Description = "EF Single Update Raw")]

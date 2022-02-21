@@ -32,7 +32,7 @@ namespace ConsoleApp.Tests
         private DateTime endDateTime = new DateTime(2022, 1, 1);
 
         [GlobalSetup]
-        public async Task Init()
+        public void Init()
         {
             Program.InitDapper();
             var dbContextOptions = Program.InitEf();
@@ -46,13 +46,13 @@ namespace ConsoleApp.Tests
         [Benchmark(Description = "DP Count Equal [Mehmet]")]
         public async Task EqualDP()
         {
-            var count = await connection.CountAsync<Student>(i => i.FirstName == "Mehmet");
+            await connection.CountAsync<Student>(i => i.FirstName == "Mehmet");
         }
 
         [Benchmark(Description = "EF Count Equal [Mehmet]")]
         public async Task EqualEF()
         {
-            var count = await context.Students.CountAsync(i => i.FirstName == "Mehmet");
+            await context.Students.CountAsync(i => i.FirstName == "Mehmet");
         }
 
         #endregion

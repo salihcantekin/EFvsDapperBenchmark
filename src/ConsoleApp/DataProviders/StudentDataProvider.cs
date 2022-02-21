@@ -10,7 +10,6 @@ namespace ConsoleApp.DataProviders
         public static ICollection<Student> GetStudentsDP(int count = 1000)
         {
             var studentFaker = new Faker<Student>("tr")
-                //.RuleFor(i => i.Id, i => studentId++)
                 .RuleFor(i => i.FirstName, i => i.Person.FirstName)
                 .RuleFor(i => i.LastName, i => i.Person.LastName)
                 .RuleFor(i => i.BirthDate, i => i.Person.DateOfBirth);
@@ -28,7 +27,6 @@ namespace ConsoleApp.DataProviders
         public static ICollection<Student> GetStudentsEF(int count = 1000)
         {
             var studentFaker = new Faker<Student>("tr")
-                //.RuleFor(i => i.Id, i => studentId++)
                 .RuleFor(i => i.FirstName, i => i.Person.FirstName)
                 .RuleFor(i => i.LastName, i => i.Person.LastName)
                 .RuleFor(i => i.BirthDate, i => i.Person.DateOfBirth);

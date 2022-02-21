@@ -23,7 +23,7 @@ namespace ConsoleApp.Tests
     public class SelectTest
     {
         private int rowCount;
-        private String firstName;
+        private string firstName;
 
         private int GetRandomId() => new Random().Next(1, rowCount);
 
@@ -49,14 +49,14 @@ namespace ConsoleApp.Tests
         public async Task EF_Select_Student_By_Id_Linq()
         {
             int id = GetRandomId();
-            var student = await context.Students.FindAsync(id);
+            await context.Students.FindAsync(id);
         }
 
         [Benchmark(Description = "DP Find")]
         public async Task DP_Select_Student_By_Id_Linq()
         {
             int id = GetRandomId();
-            var student = await connection.GetAsync<Student>(id);
+            await connection.GetAsync<Student>(id);
         }
 
         #endregion
@@ -67,14 +67,14 @@ namespace ConsoleApp.Tests
         public async Task EF_Select_Student_By_Id_RawSqwl()
         {
             int id = GetRandomId();
-            var student = await context.Students.FromSqlRaw("SELECT * from student WHERE id = {0}", id).SingleOrDefaultAsync();
+            await context.Students.FromSqlRaw("SELECT * from student WHERE id = {0}", id).SingleOrDefaultAsync();
         }
 
         [Benchmark(Description = "DP SingleOrDefault RawSql")]
         public async Task DP_Select_Student_By_Id()
         {
             int id = GetRandomId();
-            var student = await connection.QuerySingleOrDefaultAsync<Student>("SELECT * from student WHERE id = @pid", new { pid = id });
+            await connection.QuerySingleOrDefaultAsync<Student>("SELECT * from student WHERE id = @pid", new { pid = id });
         }
 
         #endregion
@@ -84,27 +84,27 @@ namespace ConsoleApp.Tests
         [Benchmark(Description = "EF Filter By FirstName LinQ")]
         public async Task EF_FilterBy_FirstName_LinQ()
         {
-            var list = await context.Students.Where(i => i.FirstName == firstName).ToListAsync();
+            await context.Students.Where(i => i.FirstName == firstName).ToListAsync();
         }
 
 
         [Benchmark(Description = "DP Filter By FirstName LinQ")]
         public async Task DP_FilterBy_FirstName_LinQ()
         {
-            List<Student> students = (await connection.SelectAsync<Student>(i => i.FirstName == firstName)).ToList();
+            (await connection.SelectAsync<Student>(i => i.FirstName == firstName)).ToList();
         }
 
 
         [Benchmark(Description = "EF Filter By FirstName RawSql")]
         public async Task EF_FilterBy_FirstName_RawSql()
         {
-            var list = await context.Students.FromSqlRaw("SELECT * from student WHERE first_name = {0}", firstName).ToListAsync();
+            await context.Students.FromSqlRaw("SELECT * from student WHERE first_name = {0}", firstName).ToListAsync();
         }
 
         [Benchmark(Description = "DP Filter By FirstName RawSql")]
         public async Task DP_FilterBy_FirstName_RawSql()
         {
-            List<Student> students = (await connection.QueryAsync<Student>("SELECT * from student WHERE first_name = @dpFirstName", new { dpFirstName = firstName })).ToList();
+            (await connection.QueryAsync<Student>("SELECT * from student WHERE first_name = @FirstName", new { FirstName = firstName })).ToList();
         }
 
         #endregion
@@ -114,14 +114,14 @@ namespace ConsoleApp.Tests
         [Benchmark(Description = "EF Get ALL")]
         public async Task EF_Select_Student_ALL()
         {
-            var list = await context.Students.ToListAsync();
+            await context.Students.ToListAsync();
         }
 
 
         [Benchmark(Description = "DP Get ALL")]
         public async Task DP_Select_Student_ALL()
         {
-            var students = (await connection.GetAllAsync<Student>()).ToList();
+            (await connection.GetAllAsync<Student>()).ToList();
         }
 
         #endregion

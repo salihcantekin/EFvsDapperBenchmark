@@ -17,7 +17,7 @@ namespace ConsoleApp.Tests
         BenchmarkDotNet.Jobs.RuntimeMoniker.Net60,
         launchCount: 2,
         targetCount: 50,
-        id: "Update Test")]
+        id: "Delete Test")]
     [MemoryDiagnoser]
     [MinColumn, MaxColumn, MeanColumn, MedianColumn]
     public class DeleteTest

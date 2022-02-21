@@ -14,26 +14,16 @@ namespace ConsoleApp
 {
     public static class Program
     {
-        static async Task Main(string[] args)
+        static void Main(string[] args)
         {
-            //var test = new DeleteTest();
-            //await test.Init();
-
-            //await test.DeleteByIdSingleDP();
-            //await test.DeleteByIdSingleEF();
-            //await test.DeleteSingleDPRaw();
-            //await test.DeleteSingleEFRaw();
-
-
             //BenchmarkRunner.Run<InsertTest>();
             //BenchmarkRunner.Run<InsertManyTest>();
-            //BenchmarkRunner.Run<UpdateTest>();
             //BenchmarkRunner.Run<SelectTest>();
+            //BenchmarkRunner.Run<SearchTest>();
+            //BenchmarkRunner.Run<FunctionsTest>();
+            //BenchmarkRunner.Run<UpdateTest>();
+            //BenchmarkRunner.Run<DeleteTest>();
 
-
-            var benchs = BenchmarkConverter.TypeToBenchmarks(typeof(DeleteTest));
-
-            BenchmarkRunner.Run(benchs);
 
             Console.ReadLine();
         }
@@ -47,12 +37,6 @@ namespace ConsoleApp
                 config.AddMap(new StudentMap());
                 config.ForDommel();
             });
-
-            //SqlMapperExtensions.TableNameMapper = entityType =>
-            //{
-            //    return entityType == typeof(StudentDP) ? "student" : throw new Exception($"Not supported entity type {entityType}");
-            //};
-
         }
 
         public static DbContextOptions InitEf()
